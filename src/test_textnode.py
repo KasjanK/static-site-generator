@@ -14,7 +14,7 @@ class TestTextNode(unittest.TestCase):
         node3 = TextNode("This is not a text node", TextType.BOLD)
         self.assertNotEqual(node2, node3)
     
-    def test_isNone(self):
+    def test_url_difference(self):
         node = TextNode("This is a text node", TextType.BOLD)
         node2 = TextNode("This is a text node", TextType.BOLD, "this is a link")
         self.assertNotEqual(node, node2)

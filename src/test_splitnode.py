@@ -1,6 +1,6 @@
 import unittest
 from textnode import TextNode, TextType
-from splitnode import split_nodes_delimiter, extract_markdown_images, extract_markdown_links, split_nodes_image, split_nodes_link
+from splitnode import split_nodes_delimiter, extract_markdown_images, extract_markdown_links, split_nodes_image, split_nodes_link, text_to_textnodes
 
 class TestSplitNodesDelimiter(unittest.TestCase):
     def test_delim_bold(self):
@@ -161,3 +161,22 @@ class TestSplitNodesDelimiter(unittest.TestCase):
             ],
             new_nodes,
         )
+
+    def test_text_to_textnodes_simple(self):
+        text = "Hello, world!"
+        nodes = text_to_textnodes(text)
+        assert len(nodes) == 1
+        assert nodes[0].text == "Hello, world!"
+        assert nodes[0].text_type == TextType.NORMAL
+        assert nodes[0].url is None
+    
+    def test_text_to_textnodes_multiple_types(self):
+        text = "This is **bold** and _italic_."
+        nodes = text_to_textnodes(text)
+        assert len(nodes) == 5
+        assert nodes[0].text == "This is "
+        assert nodes[0].text_type == TextType.NORMAL
+        
+        assert nodes[1].text == "bold"
+        assert nodes[1].text_type == TextType.BOLD
+    

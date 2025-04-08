@@ -49,14 +49,14 @@ class ParentNode(HTMLNode):
         for child in self.children:
             children_string += child.to_html()
         
-        return f"<{self.tag}>{children_string}</{self.tag}>"
+        return f"<{self.tag}{self.props_to_html()}>{children_string}</{self.tag}>"
     
     def __repr__(self):
         return f"ParentNode({self.tag}, children: {self.children}, {self.props})"
 
 def text_node_to_html_node(text_node):
     match text_node.text_type:
-        case TextType.NORMAL:
+        case TextType.TEXT:
             return LeafNode(None, text_node.text)
         case TextType.BOLD:
             return LeafNode("b", text_node.text)

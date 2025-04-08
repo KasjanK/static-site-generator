@@ -21,7 +21,7 @@ class TestTextNode(unittest.TestCase):
     
     def test_type(self):
         node = TextNode("This is a text node", TextType.BOLD)
-        node2 = TextNode("This is a text node", TextType.NORMAL)
+        node2 = TextNode("This is a text node", TextType.TEXT)
         self.assertNotEqual(node, node2)
         
 if __name__ == "__main__":

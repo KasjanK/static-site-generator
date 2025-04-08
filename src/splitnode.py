@@ -5,7 +5,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
     
     for old_node in old_nodes:
-        if old_node.text_type != TextType.NORMAL:
+        if old_node.text_type != TextType.TEXT:
             new_nodes.append(old_node)
             continue
         
@@ -29,12 +29,12 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 
                 after = old_node.text[second_delimiter_index + len(delimiter):]
                 if before: 
-                    new_nodes.append(TextNode(before, TextType.NORMAL))
+                    new_nodes.append(TextNode(before, TextType.TEXT))
                 
                 new_nodes.append(TextNode(inside, text_type))
 
                 if after:
-                    temp_node = TextNode(after, TextType.NORMAL)
+                    temp_node = TextNode(after, TextType.TEXT)
 
                     result_nodes = split_nodes_delimiter([temp_node], delimiter, text_type)
                     new_nodes.extend(result_nodes)
@@ -52,7 +52,7 @@ def split_nodes_image(old_nodes):
     new_nodes = []
 
     for old_node in old_nodes:
-        if old_node.text_type != TextType.NORMAL:
+        if old_node.text_type != TextType.TEXT:
             new_nodes.append(old_node)
             continue
 
@@ -67,7 +67,7 @@ def split_nodes_image(old_nodes):
 
             # add text before the image if its not empty
             if sections[0]:
-                new_nodes.append(TextNode(sections[0], TextType.NORMAL))
+                new_nodes.append(TextNode(sections[0], TextType.TEXT))
 
             new_nodes.append(TextNode(image_node[0], TextType.IMAGE, image_node[1]))
 
@@ -79,14 +79,14 @@ def split_nodes_image(old_nodes):
             
         # add any remaining text after the last image
         if old_node.text:
-            new_nodes.append(TextNode(old_node.text, TextType.NORMAL))
+            new_nodes.append(TextNode(old_node.text, TextType.TEXT))
     return new_nodes
 
 def split_nodes_link(old_nodes):
     new_nodes = []
 
     for old_node in old_nodes:
-        if old_node.text_type != TextType.NORMAL:
+        if old_node.text_type != TextType.TEXT:
             new_nodes.append(old_node)
             continue
 
@@ -101,7 +101,7 @@ def split_nodes_link(old_nodes):
 
             # add text before the link if its not empty
             if sections[0]:
-                new_nodes.append(TextNode(sections[0], TextType.NORMAL))
+                new_nodes.append(TextNode(sections[0], TextType.TEXT))
 
             new_nodes.append(TextNode(link_node[0], TextType.LINK, link_node[1]))
 
@@ -113,11 +113,11 @@ def split_nodes_link(old_nodes):
             
         # add any remaining text after the last link
         if old_node.text:
-            new_nodes.append(TextNode(old_node.text, TextType.NORMAL))
+            new_nodes.append(TextNode(old_node.text, TextType.TEXT))
     return new_nodes
 
 def text_to_textnodes(text):
-    node = TextNode(text, TextType.NORMAL)
+    node = TextNode(text, TextType.TEXT)
     new_node = split_nodes_delimiter([node], '**', TextType.BOLD)
     new_node = split_nodes_delimiter(new_node, '_', TextType.ITALIC)
     new_node = split_nodes_delimiter(new_node, "`", TextType.CODE)
